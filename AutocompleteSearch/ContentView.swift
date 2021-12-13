@@ -6,11 +6,27 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    
+    @StateObject private var locationManager = LocationManager.shared
+    @State private var search: String = ""
+    @StateObject private var vm = SearchResultsViewModel()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        
+        NavigationView {
+            VStack {
+                
+                List(vm.places) { place in
+                    Text(place.name)
+                }
+                
+            }.searchable(text: $vm.searchText)
+              
+                .navigationTitle("Places")
+        }
     }
 }
 
